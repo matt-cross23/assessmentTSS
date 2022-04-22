@@ -6,22 +6,29 @@ This app uses the Web Speech API to read the text on the screen.
 
 The functionality of the app right now is the play button will speak the patients name but not the questions. The biggest obstacle here becomes how to distinguish between text and extraneous content. Also another difficulty is all questions are position together, so if one presses play the speech will go to next question before the patient is finished answering. Maybe iterate through DOM elements becuase each question is under class 'questions' 
 
-i.e. 
-``` let questions = document.body.querySelectAll('.questions');
-for(let i = 0; i < questions.length; i++)
-{
-  let questionText = document.body.querySelectAll('.questions').textContent;
-  speak(questionText);  
-} 
-```
+    let questions = document.body.querySelectAll('.questions');
+    for(let i = 0; i < questions.length; i++)
+    {
+    let questionText = document.body.querySelectAll('.questions').textContent;
+    speak(questionText);  
+    } 
+
 Possibly run into CORS policy access deniall because the app is hosted on the cloud
 *Just add a header so that when the fetch happens the browser knows it's allow*
+
+Thoughts for further development are adding a highlighter to the text to improve reading comprehension, more robust accessibility, and code is structure in accessible hierarchy 
+
+---
 
 ## Technologies Used
 
 [Web Speech API docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API)
 
--The script is attached to HTML5 document
+- The script is attached to HTML5 document. 
+
+- The text is attained through querySelector
+
+- onClick event listener is added that runs the function speak(){} 
 
 ## User story
 
@@ -34,8 +41,10 @@ As a patient with mental health disabilities, I want to listen to text so I can 
 As a ERPHealth provider, I want to provide accessible webpages for best patient outcomes and most accurate data
 
 ## Acceptance Criteria
--Given a user cannot read, then they will be able to identify a button that will speak the text
--Given an ERPHealth assessment, then there is a button that will read the question at hand and not outside text
+- Given a user cannot read, then they will be able to identify a button that will speak the text
+
+- Given an ERPHealth assessment, then there is a button that will read the question at hand and not outside text
+
 -
 
 
