@@ -45,14 +45,14 @@ var voices = [0];
 // if (speechSynthesis.onvoiceschanged !== undefined) {
 //   speechSynthesis.onvoiceschanged = populateVoiceList;
 // }
-
+console.log(patientText)
 function speak(){
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
     }
     if (patientText.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(patientText.value);
+    var utterThis = new SpeechSynthesisUtterance(patientText);
     utterThis.onend = function (event) {
         console.log('SpeechSynthesisUtterance.onendValue');
     }
