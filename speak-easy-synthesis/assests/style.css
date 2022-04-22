@@ -59,11 +59,6 @@ label {
   line-height: 1.5;
 }
 
-#rate, #pitch {
-  float: right;
-  width: 81%;
-}
-
 .controls {
   text-align: center;
   margin-top: 10px;
@@ -71,4 +66,12 @@ label {
 
 .controls button {
   padding: 10px;
+}
+#play{
+  position: -webkit-sticky;
+  position: sticky;
+  background-color: gray;
+  color: white;
+  padding: 2px;
+  font-size: 10px;
 }

@@ -1,15 +1,11 @@
 console.log('TTS Script connected')
 var synth = window.speechSynthesis;
 
-var inputForm = document.querySelector('form');
-var inputTxt = document.querySelector('.txt');
+
 var voiceSelect = document.querySelector('select');
 var speechWrapper= document.querySelector('speechwrapper')
-var pitch = document.querySelector('#pitch');
-var pitchValue = document.querySelector('.pitch-value');
-var rate = document.querySelector('#rate');
-var rateValue = document.querySelector('.rate-value');
 var playButton = document.querySelector('#play')
+
 const patientName = document.querySelector('.patientname')
 let patientText = patientName.textContent
 // let text = document.getElementById('divA').textContent;
@@ -46,6 +42,7 @@ var voices = [0];
 //   speechSynthesis.onvoiceschanged = populateVoiceList;
 // }
 console.log(patientText)
+
 function speak(){
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
@@ -54,7 +51,7 @@ function speak(){
     if (patientText.value !== '') {
     var utterThis = new SpeechSynthesisUtterance(patientText);
     utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onendValue');
+        console.log('SpeechSynthesisUtterance.onend');
     }
     utterThis.onerror = function (event) {
         console.error('SpeechSynthesisUtterance.onerror');
@@ -66,8 +63,7 @@ function speak(){
         break;
       }
     }
-    // utterThis.pitch = pitch.value;
-    // utterThis.rate = rate.value;
+
     synth.speak(utterThis);
   }
 }
