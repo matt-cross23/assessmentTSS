@@ -1,0 +1,23 @@
+{
+  "name": "assessmenttss",
+  "version": "1.0.0",
+  "description": "This app uses the Web Speech API to read the text on the screen.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-cross23/assessmentTSS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-cross23/assessmentTSS/issues"
+  },
+  "homepage": "https://github.com/matt-cross23/assessmentTSS#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}

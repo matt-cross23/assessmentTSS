@@ -5,43 +5,28 @@ var synth = window.speechSynthesis;
 var voiceSelect = document.querySelector('select');
 var speechWrapper= document.querySelector('speechwrapper')
 var playButton = document.querySelector('#play')
-
 const patientName = document.querySelector('.patientname')
 let patientText = patientName.textContent
+const question = document.querySelectorAll('.question');
+let result = [];
+console.log(question)
+
+function handleText(){
+for(let i = 0; i < question.length; i++)
+  {
+  result.push(question[i].outerText);
+  console.log(result)
+  console.log(result.toString())
+   
+   } 
+  }
+handleText()
 // let text = document.getElementById('divA').textContent;
 // The text variable is now: 'This is some text!'
 
 var voices = [0];
 
-// function populateVoiceList() {
-//   voices = synth.getVoices().sort(function (a, b) {
-//       const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-//       if ( aname < bname ) return -1;
-//       else if ( aname == bname ) return 0;
-//       else return +1;
-//   });
-//   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
-//   voiceSelect.innerHTML = '';
-//   for(i = 0; i < voices.length ; i++) {
-//     var option = document.createElement('option');
-//     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-    
-//     if(voices[i].default) {
-//       option.textContent += ' -- DEFAULT';
-//     }
 
-//     option.setAttribute('data-lang', voices[i].lang);
-//     option.setAttribute('data-name', voices[i].name);
-//     voiceSelect.appendChild(option);
-//   }
-//   voiceSelect.selectedIndex = selectedIndex;
-// }
-
-// populateVoiceList();
-// if (speechSynthesis.onvoiceschanged !== undefined) {
-//   speechSynthesis.onvoiceschanged = populateVoiceList;
-// }
-console.log(patientText)
 
 function speak(){
     if (synth.speaking) {
@@ -49,7 +34,18 @@ function speak(){
         return;
     }
     if (patientText.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(patientText);
+    var utterThis = new SpeechSynthesisUtterance(result);
+    utterThis.onstart = function (event) {
+      console.log('We have started uttering this speech: ')
+      // Function that highlights text
+      function highlightText(){
+
+        var speechText = utterThis
+        var words = speechText.split(' ');
+        console.log(words)
+    }
+    highlightText
+  }
     utterThis.onend = function (event) {
         console.log('SpeechSynthesisUtterance.onend');
     }
@@ -68,26 +64,38 @@ function speak(){
   }
 }
 
-// inputForm
+
+
 //On play button text to speech 
+
 playButton.addEventListener('click', function(event) {
   console.log('speaking text')
   event.preventDefault();
 
   speak();
 
-  inputTxt.blur();
 }
 )
+// Pause
+document.querySelector("#pause").addEventListener("click", () => {
+  window.speechSynthesis.pause();
+});
+// Resume
+document.querySelector('#resume').addEventListener('click',()=> {
+  window.speechSynthesis.resume();
+});
 
-// pitch.onchange = function() {
-//   pitchValue.textContent = pitch.value;
-// }
-
-// rate.onchange = function() {
-//   rateValue.textContent = rate.value;
-// }
-
+// Cancel
+document.querySelector("#cancel").addEventListener("click", () => {
+  window.speechSynthesis.cancel();
+});
+window.onload = function sayName(){
+  console.log(patientText)
+  return speechSynthesis.speak(new SpeechSynthesisUtterance(patientText));
+}
 voiceSelect.onchange = function(){
   speak();
 }
+
+
+
