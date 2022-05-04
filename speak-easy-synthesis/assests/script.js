@@ -9,7 +9,9 @@ let patientText = patientName.outerText.toString()
 const question = document.querySelectorAll('.question');
 let result = [];
 let boundary = document.querySelector('.next')
+let paragraphs = document.querySelectorAll('p')
 
+console.log(paragraphs)
 console.log(question)
 
 function handleText() {
@@ -21,19 +23,18 @@ function handleText() {
 console.log(result)
 
 handleText()
-// let text = document.getElementById('divA').textContent;
-// The text variable is now: 'This is some text!'
 
-// // hightlight function
-// function highlightText(){
-// console.log(question.innerHTML)
-// }
+
+
 function highlightContent(){
   let highlightArray = [] 
   for (let i = 0; i < question.length; i++) {
     highlightArray.push(question[i].innerHTML);
     for(let j = 0; j <highlightArray.length; j++){
-      $(this).toggle('highlight')
+     setTimeout(function addClass(){
+      $(this).addClass('highlight') 
+     }
+     ,2000)
     }
   }
   console.log(highlightArray)
@@ -61,14 +62,6 @@ function speak() {
       console.error('SpeechSynthesisUtterance.onerror');
     }
 
-    // var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    // for(i = 0; i < voices.length ; i++) {
-    //   if(voices[i].name === selectedOption) {
-    //     utterThis.voice = voices[0];
-    //     break;
-    //   }
-    // }
-
     synth.speak(utterThis);
   }
 }
@@ -82,11 +75,15 @@ playButton.addEventListener('click', function (event) {
   event.preventDefault();
   speak();
   highlightContent()
-      // $('.question').addClass('highlight');
-      // setTimeout(function () {
-      //   $('.question').removeClass('highlight');
-      // }, 2000);
-  });
+  // <!--
+  // Highlight function idea-->
+  //  $('.question').addClass('highlight');
+  //     setTimeout(function () {
+  //       $('.question').removeClass('highlight');
+  //     }, 2000); 
+   
+  // });
+}); 
 
 // Pause
 document.querySelector("#pause").addEventListener("click", () => {
