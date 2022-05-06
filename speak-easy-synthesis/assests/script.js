@@ -1,7 +1,7 @@
 console.log('TTS Script connected')
 var synth = window.speechSynthesis;
-
-
+// let voiceList = synth.getVoices()
+// console.log(voiceList)
 // var speechWrapper= document.querySelector('speechwrapper')
 var playButton = document.querySelector('#play')
 const patientName = document.querySelector('.patientname')
@@ -31,10 +31,7 @@ function highlightContent(){
   for (let i = 0; i < question.length; i++) {
     highlightArray.push(question[i].innerHTML);
     for(let j = 0; j <highlightArray.length; j++){
-     setTimeout(function addClass(){
-      $(this).addClass('highlight') 
-     }
-     ,2000)
+    
     }
   }
   console.log(highlightArray)
@@ -53,7 +50,6 @@ function speak() {
     var utterThis = new SpeechSynthesisUtterance(result);
     utterThis.onstart = function (event) {
       console.log('We have started uttering this speech: ' + result)
-
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
@@ -61,11 +57,15 @@ function speak() {
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
     }
-
+    utterThis.onboundary = function handleBoundary(){
+      if(utterThis == 'counselor.'){
+      synth.pause();
+      console.log('Stopped')
+      }
+      }
+    }
     synth.speak(utterThis);
-  }
 }
-
 
 
 //On play button text to speech 
