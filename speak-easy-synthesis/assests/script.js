@@ -15,8 +15,7 @@ function handleText(){
 for(let i = 0; i < question.length; i++)
   {
   result.push(question[i].outerText);
-  console.log(result)
-  console.log(result.toString())
+  result.toString()
    
    } 
   }
@@ -38,13 +37,8 @@ function speak(){
     utterThis.onstart = function (event) {
       console.log('We have started uttering this speech: ')
       // Function that highlights text
-      function highlightText(){
-
-        var speechText = utterThis
-        var words = speechText.split(' ');
-        console.log(words)
-    }
-    highlightText
+      highlightText()
+    
   }
     utterThis.onend = function (event) {
         console.log('SpeechSynthesisUtterance.onend');
@@ -89,13 +83,22 @@ document.querySelector('#resume').addEventListener('click',()=> {
 document.querySelector("#cancel").addEventListener("click", () => {
   window.speechSynthesis.cancel();
 });
+
+// Say name on load 
 window.onload = function sayName(){
   console.log(patientText)
   return speechSynthesis.speak(new SpeechSynthesisUtterance(patientText));
 }
+
 voiceSelect.onchange = function(){
   speak();
 }
 
+
+function highlightText(){
+ utterThis.onboundary = function(event){
+   let e = 
+ }
+}
 
 
