@@ -1,104 +1,131 @@
 console.log('TTS Script connected')
 var synth = window.speechSynthesis;
+console.log(window.SpeechSynthesisUtterance.prototype)
 
-
-var voiceSelect = document.querySelector('select');
-var speechWrapper= document.querySelector('speechwrapper')
+// let voiceList = synth.getVoices()
+// console.log(voiceList)
+// var speechWrapper= document.querySelector('speechwrapper')
 var playButton = document.querySelector('#play')
 const patientName = document.querySelector('.patientname')
-let patientText = patientName.textContent
+let patientText = patientName.outerText.toString()
 const question = document.querySelectorAll('.question');
 let result = [];
-console.log(question)
+let boundary = document.querySelector('.next')
+let paragraphs = document.querySelectorAll('p')
 
-function handleText(){
-for(let i = 0; i < question.length; i++)
-  {
-  result.push(question[i].outerText);
-  result.toString()
-   
-   } 
+console.log(paragraphs)
+console.log(question)
+console.log(question[0].textContent)
+
+function handleText() {
+  // result.push(question[i].outerText);
+  // result.toString()
+  for (let i = 0; i < question.length; i++) {
+    result.push(question[i].innerText)  
   }
+  // console.log(result)
+  return result
+}
+
 handleText()
-// let text = document.getElementById('divA').textContent;
-// The text variable is now: 'This is some text!'
+
+
+
+// function highlightContent(){
+//   let highlightArray = [] 
+//   for (let i = 0; i < question.length; i++) {
+//     highlightArray.push(question[i].innerHTML);
+//     for(let j = 0; j <highlightArray.length; j++){
+    
+//     }
+//   }
+//   console.log(highlightArray)
+// }
 
 var voices = [0];
 
 
 
-function speak(){
-    if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
-        return;
-    }
-    if (patientText.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(result);
-    utterThis.onstart = function (event) {
-      console.log('We have started uttering this speech: ')
-      // Function that highlights text
-      highlightText()
-    
+function speak() {
+  if (synth.speaking) {
+    console.error('speechSynthesis.speaking');
+    return;
   }
+  if (patientText.value !== '') {
+    // result is the fully array have it only for the first question
+  
+    var utterThis = new SpeechSynthesisUtterance(handleText());
+    utterThis.onboundary = function () {
+      this.arguments = 'Started'
+    }
+    console.log(utterThis)
+    utterThis.onstart = function (event) {
+
+      console.log('We have started uttering this speech: ' + handleText())
+    }
     utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
+      console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
+      
     }
     utterThis.onerror = function (event) {
-        console.error('SpeechSynthesisUtterance.onerror');
+      console.error('SpeechSynthesisUtterance.onerror');
     }
-    var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for(i = 0; i < voices.length ; i++) {
-      if(voices[i].name === selectedOption) {
-        utterThis.voice = voices[0];
-        break;
-      }
+    // utterThis.onboundary = function handleBoundary(event) {
+    //   // boundary.addEventListener('click', ()=> {
+    //   //   event.preventDefault();
+    //   //   window.speechSynthesis.pause();
+    //   // console.log('Stopped')
+    //   console.log(utterThis)
+    //   window.speechSynthesis.pause();
+    // //   let setBoundary = Object.getPrototypeOf(event.utterance.onboundary)
+    // //   setBoundary = 'Assessment'
+    // //  console.log(Object.getPrototypeOf(event.utterance))
+     
+      
+    //   // console.log(setBoundary.onboundary())
+    // // event.utterance.SpeechSynthesisUtterance('Assessment')
+     
+    // }
     }
-
-    synth.speak(utterThis);
+    synth.speak(utterThis); 
   }
-}
-
-
 
 //On play button text to speech 
 
-playButton.addEventListener('click', function(event) {
+playButton.addEventListener('click', function (event) {
   console.log('speaking text')
   event.preventDefault();
-
   speak();
+  // highlightContent()
+  // <!--
+  // Highlight function idea-->
+  //  $('.question').addClass('highlight');
+  //     setTimeout(function () {
+  //       $('.question').removeClass('highlight');
+  //     }, 2000); 
+   
+  // });
+}); 
 
-}
-)
 // Pause
 document.querySelector("#pause").addEventListener("click", () => {
   window.speechSynthesis.pause();
+
 });
 // Resume
-document.querySelector('#resume').addEventListener('click',()=> {
+document.querySelector('#resume').addEventListener('click', () => {
   window.speechSynthesis.resume();
 });
 
 // Cancel
-document.querySelector("#cancel").addEventListener("click", () => {
+document.querySelector("#cancelVoice").addEventListener("click", () => {
   window.speechSynthesis.cancel();
 });
+// window.addEventListener('load', function sayName() {
+//   console.log(patientText)
+// });
 
-// Say name on load 
-window.onload = function sayName(){
-  console.log(patientText)
-  return speechSynthesis.speak(new SpeechSynthesisUtterance(patientText));
-}
-
-voiceSelect.onchange = function(){
-  speak();
-}
-
-
-function highlightText(){
- utterThis.onboundary = function(event){
-   let e = 
- }
-}
-
-
+// window.onload = (event) => {
+//   let speakName = new SpeechSynthesisUtterance(patientText);
+// synth.speak(speakName);
+// };
