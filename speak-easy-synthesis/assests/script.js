@@ -13,29 +13,33 @@ let paragraphs = document.querySelectorAll('p')
 
 console.log(paragraphs)
 console.log(question)
+console.log(question[0].textContent)
 
 function handleText() {
-  for (let i = 0; i < question.length; i++) {
-    result.push(question[i].outerText);
-    result.toString()
-  }
+  // for (let i = 0; i < question.length; i++) {
+  //   // result.push(question[i].outerText);
+  //   // result.toString()
+
+
+    
+  // }
+  return question[0].textContent
 }
-console.log(result)
 
 handleText()
 
 
 
-function highlightContent(){
-  let highlightArray = [] 
-  for (let i = 0; i < question.length; i++) {
-    highlightArray.push(question[i].innerHTML);
-    for(let j = 0; j <highlightArray.length; j++){
+// function highlightContent(){
+//   let highlightArray = [] 
+//   for (let i = 0; i < question.length; i++) {
+//     highlightArray.push(question[i].innerHTML);
+//     for(let j = 0; j <highlightArray.length; j++){
     
-    }
-  }
-  console.log(highlightArray)
-}
+//     }
+//   }
+//   console.log(highlightArray)
+// }
 
 var voices = [0];
 
@@ -47,7 +51,8 @@ function speak() {
     return;
   }
   if (patientText.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(result);
+    // result is the fully array have it only for the first question
+    var utterThis = new SpeechSynthesisUtterance(handleText());
     utterThis.onstart = function (event) {
       console.log('We have started uttering this speech: ' + result)
     }
@@ -57,11 +62,11 @@ function speak() {
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
     }
-    utterThis.onboundary = function handleBoundary(){
-      if(utterThis == 'counselor.'){
+    utterThis.onboundary = function handleBoundary(event){
+      boundary.addEventListener('click', ()=> {
       synth.pause();
       console.log('Stopped')
-      }
+      }) 
       }
     }
     synth.speak(utterThis);
@@ -74,7 +79,7 @@ playButton.addEventListener('click', function (event) {
   console.log('speaking text')
   event.preventDefault();
   speak();
-  highlightContent()
+  // highlightContent()
   // <!--
   // Highlight function idea-->
   //  $('.question').addClass('highlight');
@@ -103,7 +108,7 @@ document.querySelector("#cancelVoice").addEventListener("click", () => {
 //   console.log(patientText)
 // });
 
-window.onload = (event) => {
-  let speakName = new SpeechSynthesisUtterance(patientText);
-synth.speak(speakName);
-};
+// window.onload = (event) => {
+//   let speakName = new SpeechSynthesisUtterance(patientText);
+// synth.speak(speakName);
+// };
