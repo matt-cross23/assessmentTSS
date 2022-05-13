@@ -15,13 +15,15 @@ let paragraphs = document.querySelectorAll('p')
 
 console.log(paragraphs)
 console.log(question)
-console.log(question[0].textContent)
+
 
 function handleText() {
   // result.push(question[i].outerText);
   // result.toString()
   for (let i = 0; i < question.length; i++) {
-    result.push(question[i].innerText)  
+    result.push(question[i].textContent)  
+    result.toString()
+ 
   }
   // console.log(result)
   return result
@@ -29,6 +31,9 @@ function handleText() {
 
 handleText()
 
+function highlightText(){
+
+}
 
 
 // function highlightContent(){
@@ -52,42 +57,45 @@ function speak() {
     return;
   }
   if (patientText.value !== '') {
-    // result is the fully array have it only for the first question
+    i = 0
   
-    var utterThis = new SpeechSynthesisUtterance(handleText());
-    utterThis.onboundary = function () {
-      this.arguments = 'Started'
-    }
+    // result is the fully array have it only for the first question
+    var utterThis = new SpeechSynthesisUtterance(question[i].textContent);
+    var utterQueue = new SpeechSynthesisUtterance(question[i++].textContent);
     console.log(utterThis)
     utterThis.onstart = function (event) {
-
-      console.log('We have started uttering this speech: ' + handleText())
+      let pending = synth.pending
+      console.log('The Queue is ' + pending)
+      console.log('We have started uttering this speech: ' + question[i].textContent)
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
-      
     }
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
     }
-    // utterThis.onboundary = function handleBoundary(event) {
-    //   // boundary.addEventListener('click', ()=> {
-    //   //   event.preventDefault();
-    //   //   window.speechSynthesis.pause();
-    //   // console.log('Stopped')
-    //   console.log(utterThis)
-    //   window.speechSynthesis.pause();
-    // //   let setBoundary = Object.getPrototypeOf(event.utterance.onboundary)
-    // //   setBoundary = 'Assessment'
-    // //  console.log(Object.getPrototypeOf(event.utterance))
-     
-      
-    //   // console.log(setBoundary.onboundary())
-    // // event.utterance.SpeechSynthesisUtterance('Assessment')
-     
-    // }
+
     }
+    else if (question[i] !== question.length){
+      window.speechSynthesis.pause();
+    }
+    utterQueue.onstart = function (event) {
+      console.log('Queue activated');
+      console.log(utterQueue.text)
+      let pending = synth.pending
+      console.log(pending)
+    }
+    utterQueue.onend = function (event) {
+      console.log('Queue ended')
+      let pending = synth.pending
+      console.log(pending)
+     return synth.speak(utterQueue)
+    }
+
     synth.speak(utterThis); 
+    synth.speak(utterQueue)
+    utterThis.rate = 9
+
   }
 
 //On play button text to speech 
