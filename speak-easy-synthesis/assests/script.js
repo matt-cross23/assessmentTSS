@@ -51,25 +51,26 @@ var voices = [0];
 
 
 
-function speak() {
+function speak(num) {
+  num = 0
   if (synth.speaking) {
     console.error('speechSynthesis.speaking');
     return;
   }
   if (patientText.value !== '') {
-    i = 0
   
     // result is the fully array have it only for the first question
-    var utterThis = new SpeechSynthesisUtterance(question[i].textContent);
-    var utterQueue = new SpeechSynthesisUtterance(question[i++].textContent);
+    var utterThis = new SpeechSynthesisUtterance(question[num].textContent);
+    var utterQueue = new SpeechSynthesisUtterance(question[num+1].textContent);
     console.log(utterThis)
     utterThis.onstart = function (event) {
       let pending = synth.pending
       console.log('The Queue is ' + pending)
-      console.log('We have started uttering this speech: ' + question[i].textContent)
+      console.log('We have started uttering this speech: ' + question[num].textContent)
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
+      speak(utterQueue)
     }
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
@@ -80,16 +81,20 @@ function speak() {
       window.speechSynthesis.pause();
     }
     utterQueue.onstart = function (event) {
+      num ++
       console.log('Queue activated');
       console.log(utterQueue.text)
       let pending = synth.pending
       console.log(pending)
+      
+      return synth.speak.utterThis
+
+
     }
     utterQueue.onend = function (event) {
       console.log('Queue ended')
       let pending = synth.pending
       console.log(pending)
-     return synth.speak(utterQueue)
     }
 
     synth.speak(utterThis); 
