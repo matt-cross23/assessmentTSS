@@ -51,7 +51,7 @@ var voices = [0];
 
 
 
-function speak(num) {
+function speak(num, iteration) {
   num = 0
   if (synth.speaking) {
     console.error('speechSynthesis.speaking');
@@ -63,6 +63,7 @@ function speak(num) {
     var utterThis = new SpeechSynthesisUtterance(question[num].textContent);
     var utterQueue = new SpeechSynthesisUtterance(question[num+1].textContent);
     console.log(utterThis)
+    console.log(utterQueue)
     utterThis.onstart = function (event) {
       let pending = synth.pending
       console.log('The Queue is ' + pending)
@@ -81,15 +82,11 @@ function speak(num) {
       window.speechSynthesis.pause();
     }
     utterQueue.onstart = function (event) {
-      num ++
       console.log('Queue activated');
       console.log(utterQueue.text)
       let pending = synth.pending
       console.log(pending)
-      
-      return synth.speak.utterThis
-
-
+      return synth.speak(utterThis)
     }
     utterQueue.onend = function (event) {
       console.log('Queue ended')
