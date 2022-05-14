@@ -50,7 +50,7 @@ var voices = [0];
 
 
 
-function speak(num, iteration) {
+function speak() {
   num = 0
   console.log(num)
   if (synth.speaking) {
@@ -131,7 +131,7 @@ speechPromise.then(
 playButton.addEventListener('click', function (event) {
   console.log('speaking text')
   event.preventDefault();
-  speak()
+  speak();
   // highlightContent()
   // <!--
   // Highlight function idea-->
