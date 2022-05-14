@@ -1,7 +1,6 @@
 console.log('TTS Script connected')
 var synth = window.speechSynthesis;
 console.log(window.SpeechSynthesisUtterance.prototype)
-
 // let voiceList = synth.getVoices()
 // console.log(voiceList)
 // var speechWrapper= document.querySelector('speechwrapper')
@@ -55,13 +54,18 @@ function speak() {
     // result is the fully array have it only for the first question
   
     var utterThis = new SpeechSynthesisUtterance(handleText());
-    utterThis.onboundary = function () {
-      this.arguments = 'Started'
+    utterThis.onboundary = function constructor(property, charIndex, charLength) {
+      this.property = property;
+      this.charIndex = property.charIndex;
+      this.charLength = property.charLength;
+      this.onboundary = function hello(){
+        return charIndex
+      }
     }
     console.log(utterThis)
     utterThis.onstart = function (event) {
 
-      console.log('We have started uttering this speech: ' + handleText())
+      // console.log('We have started uttering this speech: ' + handleText())
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
@@ -70,11 +74,21 @@ function speak() {
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
     }
+
+    utterThis.onpause = function(event) {
+      var char = event.utterance.text.charAt(event.charIndex);
+      console.log('Speech paused at character ' + event.charIndex + ' of "' +
+ '", which is "' + char + '".');
+    }
+    
+
+
     // utterThis.onboundary = function handleBoundary(event) {
-    //   // boundary.addEventListener('click', ()=> {
-    //   //   event.preventDefault();
-    //   //   window.speechSynthesis.pause();
-    //   // console.log('Stopped')
+    //   boundary.addEventListener('click', ()=> {
+    //     event.preventDefault();
+    //     window.speechSynthesis.pause();
+    //   console.log('Stopped')
+    //   })
     //   console.log(utterThis)
     //   window.speechSynthesis.pause();
     // //   let setBoundary = Object.getPrototypeOf(event.utterance.onboundary)
