@@ -25,10 +25,9 @@ function handleText() {
     result.toString()
  
   }
-  // console.log(result)
   return result
 }
-
+console.log(result)
 handleText()
 
 function highlightText(){
@@ -53,22 +52,21 @@ var voices = [0];
 
 function speak(num, iteration) {
   num = 0
+  console.log(num)
   if (synth.speaking) {
     console.error('speechSynthesis.speaking');
     return;
   }
   if (patientText.value !== '') {
     // result is the fully array have it only for the first question
-    var utterThis = new SpeechSynthesisUtterance(question[num].textContent);
-    num+=1
-    var utterQueue = new SpeechSynthesisUtterance(question[num].textContent);
+    var utterThis = new SpeechSynthesisUtterance(question[0].textContent);
+    var utterQueue = new SpeechSynthesisUtterance(question[1].textContent);
     console.log(utterThis)
     console.log(utterQueue)
     utterThis.onstart = function (event) {
       let pending = synth.pending
       console.log('The Queue is ' + pending)
-      console.log('We have started uttering this speech: ' + question[num].textContent)
-    }
+        }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
       if(pending = true){
@@ -81,36 +79,59 @@ function speak(num, iteration) {
     }
 
     }
-    else if (question[i] !== question.length){
+    else if (question[num] = question.length){
       window.speechSynthesis.pause();
     }
+
     utterQueue.onstart = function (event) {
       console.log('Queue activated');
       console.log(utterQueue.text)
       let pending = synth.pending
       console.log(pending)
-      // return synth.speak(utterThis)
     }
     utterQueue.onend = function (event) {
       console.log('Queue ended')
       let pending = synth.pending
       console.log(pending)
+        synth.pause()
+    
     }
-  const speechPromise = new Promise(() =>{
-    synth.speak(utterThis); 
-    nextButton.addEventListener('click', function(){
-      synth.resume()
-    })
+ 
+    utterQueue.onboundary = function(event){
+      console.log(event.charIndex, event.name)
+      if (event.charIndex === 951){
+        window.speechSynthesis.cancel()
+        console.log('cancelled');
+      } 
+    }
+   
+    utterThis.rate = 9
+    utterQueue.rate = 9 
+
+const speechPromise = new Promise(() =>{
+  synth.speak(utterThis); 
+  nextButton.addEventListener('click', function(event){
+    event.preventDefault();
+    synth.resume()
   })
-  speechPromise.then( synth.speak(utterQueue)
-  )
+})
+speechPromise.then( 
+  synth.speak(utterQueue)
+)
 }
+
+// function speakQuestions(){
+//   var utterQuestions = new SpeechSynthesisUtterance(question.textContent);
+//   console.log(utterQuestions)
+//   synth.speak(utterQuestions)
+
+// }
 //On play button text to speech 
 
 playButton.addEventListener('click', function (event) {
   console.log('speaking text')
   event.preventDefault();
-  speak();
+  speak()
   // highlightContent()
   // <!--
   // Highlight function idea-->
@@ -136,11 +157,3 @@ document.querySelector('#resume').addEventListener('click', () => {
 document.querySelector("#cancelVoice").addEventListener("click", () => {
   window.speechSynthesis.cancel();
 });
-// window.addEventListener('load', function sayName() {
-//   console.log(patientText)
-// });
-
-// window.onload = (event) => {
-//   let speakName = new SpeechSynthesisUtterance(patientText);
-// synth.speak(speakName);
-// };
