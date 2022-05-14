@@ -11,6 +11,7 @@ const question = document.querySelectorAll('.question');
 let result = [];
 let boundary = document.querySelector('.next')
 let paragraphs = document.querySelectorAll('p')
+let nextButton = document.querySelector('.proxyNext')
 
 console.log(paragraphs)
 console.log(question)
@@ -57,10 +58,10 @@ function speak(num, iteration) {
     return;
   }
   if (patientText.value !== '') {
-  
     // result is the fully array have it only for the first question
     var utterThis = new SpeechSynthesisUtterance(question[num].textContent);
-    var utterQueue = new SpeechSynthesisUtterance(question[num+1].textContent);
+    num+=1
+    var utterQueue = new SpeechSynthesisUtterance(question[num].textContent);
     console.log(utterThis)
     console.log(utterQueue)
     utterThis.onstart = function (event) {
@@ -70,7 +71,10 @@ function speak(num, iteration) {
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
-      speak(utterQueue)
+      if(pending = true){
+        synth.pause()
+
+      }
     }
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
@@ -85,20 +89,22 @@ function speak(num, iteration) {
       console.log(utterQueue.text)
       let pending = synth.pending
       console.log(pending)
-      return synth.speak(utterThis)
+      // return synth.speak(utterThis)
     }
     utterQueue.onend = function (event) {
       console.log('Queue ended')
       let pending = synth.pending
       console.log(pending)
     }
-
+  const speechPromise = new Promise(() =>{
     synth.speak(utterThis); 
-    synth.speak(utterQueue)
-    utterThis.rate = 9
-
-  }
-
+    nextButton.addEventListener('click', function(){
+      synth.resume()
+    })
+  })
+  speechPromise.then( synth.speak(utterQueue)
+  )
+}
 //On play button text to speech 
 
 playButton.addEventListener('click', function (event) {
