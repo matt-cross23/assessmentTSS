@@ -17,29 +17,37 @@ console.log(paragraphs);
 console.log(question);
 
 const questionObject = {
-  utterance2: new SpeechSynthesisUtterance(question[3].textContent),
-  utterance3: new SpeechSynthesisUtterance(question[4].textContent),
-  utterance4: new SpeechSynthesisUtterance(question[5].textContent),
-  utterance5: new SpeechSynthesisUtterance(question[6].textContent),
-  utterance6: new SpeechSynthesisUtterance(question[7].textContent),
-  utterance7: new SpeechSynthesisUtterance(question[8].textContent),
-  utterance8: new SpeechSynthesisUtterance(question[9].textContent),
-  utterance9: new SpeechSynthesisUtterance(question[10].textContent),
-  utterance10: new SpeechSynthesisUtterance(question[11].textContent),
-  utterance11: new SpeechSynthesisUtterance(question[12].textContent),
-  utterance12: new SpeechSynthesisUtterance(question[13].textContent),
-  utterance13: new SpeechSynthesisUtterance(question[14].textContent),
-  utterance14: new SpeechSynthesisUtterance(question[15].textContent),
-  utterance15: new SpeechSynthesisUtterance(question[16].textContent),
-  utterance16: new SpeechSynthesisUtterance(question[17].textContent),
-  utterance17: new SpeechSynthesisUtterance(question[18].textContent),
-  utterance18: new SpeechSynthesisUtterance(question[19].textContent),
-  utterance19: new SpeechSynthesisUtterance(question[20].textContent),
-  utterParagraph: new SpeechSynthesisUtterance(paragraphs[0].textContent),
-  utterParagraph2: new SpeechSynthesisUtterance(paragraphs[1].textContent),
-  utterParagraph3: new SpeechSynthesisUtterance(paragraphs[2].textContent),
+  utterance2: new SpeechSynthesisUtterance(question[2].textContent),
+  utterance3: new SpeechSynthesisUtterance(question[3].textContent),
+  utterance4: new SpeechSynthesisUtterance(question[4].textContent),
+  utterance5: new SpeechSynthesisUtterance(question[5].textContent),
+  utterance6: new SpeechSynthesisUtterance(question[6].textContent),
+  utterance7: new SpeechSynthesisUtterance(question[7].textContent),
+  utterance8: new SpeechSynthesisUtterance(question[8].textContent),
+  utterance9: new SpeechSynthesisUtterance(question[9].textContent),
+  utterance10: new SpeechSynthesisUtterance(question[10].textContent),
+  utterance11: new SpeechSynthesisUtterance(question[11].textContent),
+  utterance12: new SpeechSynthesisUtterance(question[12].textContent),
+  utterance13: new SpeechSynthesisUtterance(question[13].textContent),
+  utterance14: new SpeechSynthesisUtterance(question[14].textContent),
+  utterance15: new SpeechSynthesisUtterance(question[15].textContent),
+  utterance16: new SpeechSynthesisUtterance(question[16].textContent),
+  utterance17: new SpeechSynthesisUtterance(question[17].textContent),
+  utterance18: new SpeechSynthesisUtterance(question[18].textContent),
+  utterance19: new SpeechSynthesisUtterance(question[19].textContent),
+  utterance20: new SpeechSynthesisUtterance(question[20].textContent),
+  utterParagraph: new SpeechSynthesisUtterance(paragraphs[20].textContent),
+  utterParagraph2: new SpeechSynthesisUtterance(paragraphs[21].textContent),
+  utterParagraph3: new SpeechSynthesisUtterance(paragraphs[22].textContent),
 };
-console.log(questionObject)
+function speechFunction() {
+  for (let i = 0; i < questionObject.length; i++) {
+    synth.speak(questionObject[i]);
+    
+  }
+};
+speechFunction();
+
 function handleText() {
   // result.push(question[i].outerText);
   // result.toString()
@@ -52,24 +60,21 @@ function handleText() {
 console.log(result);
 handleText();
 
-
-function highlightContent(){
-  let highlightArray = []
+function highlightContent() {
+  let highlightArray = [];
   for (let i = 0; i < paragraphs.length; i++) {
     highlightArray.push(paragraphs[i].innerHTML);
-    for(let j = 0; j < highlightArray.length; j++){
-     paragraphs[i].classList.add('mark') 
+    for (let j = 0; j < highlightArray.length; j++) {
+      paragraphs[i].classList.add("mark");
     }
   }
-  console.log(highlightArray)
+  console.log(highlightArray);
 }
-
 
 var voices = [0];
 
 function speak() {
-  num = 0;
-  console.log(num);
+
   if (synth.speaking) {
     console.error("speechSynthesis.speaking");
     return;
@@ -78,8 +83,6 @@ function speak() {
     var utterThis = new SpeechSynthesisUtterance(question[0].textContent);
     var utterQueue = new SpeechSynthesisUtterance(question[1].textContent);
     console.log(utterThis);
-
-    console.log(num);
     // console.log(utterQueue)
     utterThis.onstart = function (event) {
       let pending = synth.pending;
@@ -132,31 +135,71 @@ function speak() {
   speechPromise
     .then(synth.speak(utterQueue))
     .then(
-      synth.speak(questionObject.utterance2),
-      (questionObject.utterance2.onend = function (event) {
-        window.speechSynthesis.paused();
-      })
+      synth.speak(questionObject.utterance2)
     )
-    .then(synth.speak(questionObject.utterance3),
-    highlightContent())
-    .then(synth.speak(questionObject.utterance4))
-    .then(synth.speak(questionObject.utterance5))
-    .then(synth.speak(questionObject.utterance6))
-    .then(synth.speak(questionObject.utterance8))
-    .then(synth.speak(questionObject.utterance9))
-    .then(synth.speak(questionObject.utterance10))
-    .then(synth.speak(questionObject.utterance11))
-    .then(synth.speak(questionObject.utterance12))
-    .then(synth.speak(questionObject.utterance13))
-    .then(synth.speak(questionObject.utterance14))
-    .then(synth.speak(questionObject.utterance15))
-    .then(synth.speak(questionObject.utterance16))
-    .then(synth.speak(questionObject.utterance17))
-    .then(synth.speak(questionObject.utterance18))
-    .then(synth.speak(questionObject.utterance19))
-    .then(synth.speak(questionObject.utterParagraph))
-    .then(synth.speak(questionObject.utterParagraph2))
-    .then(synth.speak(questionObject.utteranceParagraph3))
+    .then(
+      synth.speak(questionObject.utterance3)
+    )
+    .then(
+      synth.speak(questionObject.utterance4)
+    )
+    .then(
+      synth.speak(questionObject.utterance5)
+    )
+    .then(
+      synth.speak(questionObject.utterance6)
+    )
+    .then(
+      synth.speak(questionObject.utterance7)
+    )
+    .then(
+      synth.speak(questionObject.utterance8)
+    )
+    .then(
+      synth.speak(questionObject.utterance9)
+    )
+    .then(
+      synth.speak(questionObject.utterance10)
+    )
+    .then(
+      synth.speak(questionObject.utterance11)
+    )
+    .then(
+      synth.speak(questionObject.utterance12)
+    )
+    .then(
+      synth.speak(questionObject.utterance13)
+    )
+    .then(
+      synth.speak(questionObject.utterance14)
+    )
+    .then(
+      synth.speak(questionObject.utterance15)
+    )
+    .then(
+      synth.speak(questionObject.utterance16)
+    )
+    .then(
+      synth.speak(questionObject.utterance17)
+    )   
+    .then(
+      synth.speak(questionObject.utterance18)
+    )
+    .then(
+      synth.speak(questionObject.utterance19)
+    )
+    .then(
+      synth.speak(questionObject.utterance20)
+    )
+    .then(
+      synth.speak(questionObject.utterParagraph)
+    )
+    .then(
+      synth.speak(questionObject.utterParagraph2)
+    )
+    .then(
+      synth.speak(questionObject.utterParagraph3)
+    )
 }
 
 //On play button text to speech
