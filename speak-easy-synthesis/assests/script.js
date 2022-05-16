@@ -80,8 +80,8 @@ function speak() {
     return;
   }
   if (patientText.value !== "") {
-    var utterThis = new SpeechSynthesisUtterance(question[0].textContent);
-    var utterQueue = new SpeechSynthesisUtterance(question[1].textContent);
+    var utterThis = new window.SpeechSynthesisUtterance(question[0].textContent);
+    var utterQueue = new window.SpeechSynthesisUtterance(question[1].textContent);
     console.log(utterThis);
     // console.log(utterQueue)
     utterThis.onstart = function (event) {
