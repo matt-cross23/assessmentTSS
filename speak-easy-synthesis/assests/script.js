@@ -126,6 +126,7 @@ function speak() {
   utterQueue.rate = 9;
 
   const speechPromise = new Promise(() => {
+    highlightContent()
     synth.speak(utterThis);
     nextButton.addEventListener("click", function (event) {
       event.preventDefault();
