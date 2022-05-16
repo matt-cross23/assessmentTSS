@@ -51,27 +51,28 @@ var voices = [0];
 
 
 
-function speak(num, iteration) {
-  num = 0
+function speak(num) {
   if (synth.speaking) {
     console.error('speechSynthesis.speaking');
     return;
   }
   if (patientText.value !== '') {
-  
+  num = 0 
     // result is the fully array have it only for the first question
     var utterThis = new SpeechSynthesisUtterance(question[num].textContent);
-    var utterQueue = new SpeechSynthesisUtterance(question[num+1].textContent);
+    // var utterQueue = new SpeechSynthesisUtterance(question[num+1].textContent);
     console.log(utterThis)
-    console.log(utterQueue)
+ 
+    console.log(num)
+    // console.log(utterQueue)
     utterThis.onstart = function (event) {
-      let pending = synth.pending
-      console.log('The Queue is ' + pending)
-      console.log('We have started uttering this speech: ' + question[num].textContent)
+           console.log('We have started uttering this speech: ' + question[num].textContent)
+     
     }
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend ' + event.elapsedTime);
-      speak(utterQueue)
+      num++
+      speak(utterThis)
     }
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror');
@@ -81,21 +82,21 @@ function speak(num, iteration) {
     else if (question[i] !== question.length){
       window.speechSynthesis.pause();
     }
-    utterQueue.onstart = function (event) {
-      console.log('Queue activated');
-      console.log(utterQueue.text)
-      let pending = synth.pending
-      console.log(pending)
-      return synth.speak(utterThis)
-    }
-    utterQueue.onend = function (event) {
-      console.log('Queue ended')
-      let pending = synth.pending
-      console.log(pending)
-    }
+    // utterQueue.onstart = function (event) {
+    //   console.log('Queue activated');
+    //   console.log(utterQueue.text)
+    //   let pending = synth.pending
+    //   console.log(pending)
+    //   return synth.speak(utterThis)
+    // }
+    // utterQueue.onend = function (event) {
+    //   console.log('Queue ended')
+    //   let pending = synth.pending
+    //   console.log(pending)
+    // }
 
     synth.speak(utterThis); 
-    synth.speak(utterQueue)
+    // synth.speak(utterQueue)
     utterThis.rate = 9
 
   }
