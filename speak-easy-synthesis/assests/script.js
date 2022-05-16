@@ -136,7 +136,8 @@ function speak() {
   speechPromise
     .then(synth.speak(utterQueue))
     .then(
-      synth.speak(questionObject.utterance2)
+      synth.speak(questionObject.utterance2),
+      synth.pause()
     )
     .then(
       synth.speak(questionObject.utterance3)
