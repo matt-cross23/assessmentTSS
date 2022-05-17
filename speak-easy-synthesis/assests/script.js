@@ -1,6 +1,7 @@
 console.log('TTS Script connected')
 var synth = window.speechSynthesis;
 console.log(window.SpeechSynthesisUtterance.prototype)
+console.log('speechSynthesis' in window, 'webkitSpeechRecognition' in window, 'speechRecognition' in window);
 // let voiceList = synth.getVoices()
 // console.log(voiceList)
 // var speechWrapper= document.querySelector('speechwrapper')
