@@ -2,7 +2,7 @@ console.log("TTS Script connected");
 var synth = window.speechSynthesis;
 let rate = synth.rate = 10
 console.log(window.SpeechSynthesisUtterance.prototype);
-console.log(SpeechSynthesisUtterance in window);
+console.log("Speech Synthesis is "+ 'speechSynthesis' in window);
  let voiceList = synth.getVoices();
 console.log(voiceList);
 var playButton = document.querySelector("#play");
@@ -16,7 +16,6 @@ let nextButton = document.querySelector(".proxyNext");
 
 console.log(paragraphs);
 
-let testSpeech = new SpeechSynthesisUtterance(paragraphs[22].textContent);
 
 const questionObject = {
   utterance2: new SpeechSynthesisUtterance(question[2].textContent),
