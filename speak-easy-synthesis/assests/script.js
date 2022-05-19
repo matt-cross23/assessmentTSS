@@ -1,10 +1,11 @@
 console.log("TTS Script connected");
 var synth = window.speechSynthesis;
-let rate = synth.rate = 10
+console.log(synth)
 console.log(window.SpeechSynthesisUtterance.prototype);
-console.log(SpeechSynthesisUtterance in window);
+// console.log(SpeechSynthesisUtterance in window);
  let voiceList = synth.getVoices();
 console.log(voiceList);
+var msg = new SpeechSynthesisUtterance('hello')
 var playButton = document.querySelector("#play");
 const patientName = document.querySelector(".patientname");
 let patientText = patientName.outerText.toString();
@@ -16,7 +17,6 @@ let nextButton = document.querySelector(".proxyNext");
 
 console.log(paragraphs);
 
-let testSpeech = new SpeechSynthesisUtterance(paragraphs[22].textContent);
 
 const questionObject = {
   utterance2: new SpeechSynthesisUtterance(question[2].textContent),
@@ -82,8 +82,8 @@ function speak() {
     return;
   }
   if (patientText.value !== "") {
-    var utterThis = new window.SpeechSynthesisUtterance(question[0].textContent);
-    var utterQueue = new window.SpeechSynthesisUtterance(question[1].textContent);
+    var utterThis = new SpeechSynthesisUtterance('Test');
+    var utterQueue = new SpeechSynthesisUtterance(question[1].textContent);
     console.log(utterThis);
     // console.log(utterQueue)
     utterThis.onstart = function (event) {
@@ -122,10 +122,7 @@ function speak() {
       window.speechSynthesis.paused();
       console.log("end of question");
     }
-  };
-
-  utterThis.rate = 9;
-  utterQueue.rate = 9;
+  }
 
 
   speechPromise
@@ -198,8 +195,9 @@ function speak() {
       synth.speak(questionObject.utterParagraph3)
     )
 
+
 const speechPromise = new Promise(() => {
-  highlightContent()
+  // highlightContent()
   synth.speak(utterThis);
   nextButton.addEventListener("click", function (event) {
     event.preventDefault();
